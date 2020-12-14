@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/KillDLL.iml" filepath="$PROJECT_DIR$/.idea/modules/KillDLL.iml" group="KillDLL" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="KillDLL/app" />
     </modules>
   </component>
 </project>
