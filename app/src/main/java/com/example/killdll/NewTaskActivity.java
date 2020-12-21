@@ -26,6 +26,7 @@ public class NewTaskActivity extends AppCompatActivity {
 
     private Button addDate;
     private Button addTime;
+    private Button addPicture;
 
 
 
@@ -43,7 +44,27 @@ public class NewTaskActivity extends AppCompatActivity {
 //                SubTask subTask = subTaskList.get(position);
 //            }
 //        });
+        setDate();
+        setTime();
 
+
+
+    }
+
+    private void init(){
+        addDate = (Button) findViewById(R.id.add_date);
+        addTime = (Button) findViewById(R.id.add_time);
+        addPicture = (Button) findViewById(R.id.add_picture);
+
+
+
+    }
+
+    private void initTasks() {
+
+    }
+
+    private void setDate() {
         addDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +81,9 @@ public class NewTaskActivity extends AppCompatActivity {
                 },year,month,day).show();
             }
         });
+    }
+
+    private void setTime() {
         addTime.setOnClickListener(new View.OnClickListener() {
             Calendar calendar = Calendar.getInstance();
             @Override
@@ -75,19 +99,13 @@ public class NewTaskActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
+    private void takePhoto() {
+        addPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-    private void init(){
-        addDate = (Button) findViewById(R.id.add_date);
-        addTime = (Button) findViewById(R.id.add_time);
-
-
-    }
-
-    private void initTasks() {
-
+            }
+        });
     }
 }
