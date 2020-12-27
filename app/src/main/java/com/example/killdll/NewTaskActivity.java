@@ -23,6 +23,7 @@ import android.text.style.ImageSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -33,6 +34,7 @@ import android.widget.Toolbar;
 
 import com.example.killdll.subTask.SubTask;
 import com.example.killdll.subTask.TaskAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -162,8 +164,8 @@ public class NewTaskActivity extends AppCompatActivity {
                 builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       Intent intent1 = new Intent(NewTaskActivity.this,MainActivity.class);
-                       startActivity(intent1);
+                        Intent intent1 = new Intent(NewTaskActivity.this,MainActivity.class);
+                        startActivity(intent1);
                     }
                 });
                 builder.show();
@@ -242,14 +244,14 @@ public class NewTaskActivity extends AppCompatActivity {
                                     case 0://拍照
                                         Intent getImageByCamera= new Intent("android.media.action.IMAGE_CAPTURE");
                                         startActivityForResult(getImageByCamera, CAMERA_SUCCESS);
-                                       // pickPicFromCam();
+                                        // pickPicFromCam();
                                         break;
                                     case 1://从相册中选择
                                         Intent getImage = new Intent(Intent.ACTION_GET_CONTENT);
                                         getImage.addCategory(Intent.CATEGORY_OPENABLE);
                                         getImage.setType("image/*");
                                         startActivityForResult(getImage, PHOTO_SUCCESS);
-                                       // pickPicFromPic();
+                                        // pickPicFromPic();
                                         break;
                                     default:
                                         break;
@@ -264,15 +266,10 @@ public class NewTaskActivity extends AppCompatActivity {
     /*
     //拍照
     private void pickPicFromCam() {
-
-
     }
-
     //从相册中选择
     private void pickPicFromPic() {
-
     }
-
      */
 
     @Override
