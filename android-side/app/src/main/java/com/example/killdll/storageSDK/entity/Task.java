@@ -1,5 +1,6 @@
 package com.example.killdll.storageSDK.entity;
 
+import java.util.List;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -18,8 +19,11 @@ public class Task {
     String theme;
 
     // recording the sub-task and its completion situation
-    Map<String, Boolean>[] subTasks;
-    String remarks;
+    List<Map<String, Boolean>> subTasks;
+
+    // save remarks as string
+    // if involving picture, convert them by methods in BitmapUtils
+    List<String> remarks;
 
     TaskState taskState;
 }
