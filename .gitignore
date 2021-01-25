@@ -1,6 +1,6 @@
 *.iml
-.gradle
-/local.properties
+./android-side/.gradle
+./android-side/local.properties
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -8,7 +8,12 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+./android-side/app/build
+./android-side/captures
+./android-side/.externalNativeBuild
+./android-side/.cxx
+
+# for idea
+/.idea/
+./android-side/.idea/
+./server-side/.idea/
