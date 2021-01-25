@@ -51,6 +51,10 @@ type Receive struct {
 	Tasks   []Task `json:"tasks"`
 }
 
+type TaskDeleteModel struct {
+	TaskIds []string `json:"taskIds"`
+}
+
 func AddTask(task Task) bool {
 
 	_, err := config.TaskCol.InsertOne(context.TODO(), task)
@@ -66,6 +70,23 @@ func DeleteTaskById(taskId string) bool {
 
 	_, err := config.TaskCol.DeleteOne(context.TODO(), bson.M{"id": taskId})
 	if err != nil {
+		log.Println(err)
+		return false
+	}
+
+	return true
+}
+
+func DeleteTasksByIds(taskIds []string) bool {
+
+	filter := bson.D{}
+
+	for _, id := range taskIds{
+		filter = append(filter, bson.E{Key: "id", Value: id})
+	}
+
+	_, err := config.TaskCol.DeleteMany(context.TODO(), filter)
+	if err != nil{
 		log.Println(err)
 		return false
 	}

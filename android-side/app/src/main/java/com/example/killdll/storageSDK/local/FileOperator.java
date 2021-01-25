@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.example.killdll.storageSDK.entity.Task;
-import com.example.killdll.storageSDK.entity.TaskState;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +18,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
+@Deprecated
 public class FileOperator {
 
     private final String fileName;

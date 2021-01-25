@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class Receive {
-    int code;
-    String message;
-    String token;
-    List<Task> tasks;
+    private int code;
+    private String message;
+    private String token;
+    private List<Task> tasks;
 }

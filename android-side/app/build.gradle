@@ -51,6 +51,9 @@ dependencies {
     // okhttp plugin for fast http request
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.0'
 
+    def room_version = "2.2.6"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
 
 }

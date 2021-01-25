@@ -1,9 +1,7 @@
 package com.example.killdll.storageSDK;
 
-import android.content.Context;
-
 import com.example.killdll.storageSDK.entity.Task;
-import com.example.killdll.storageSDK.local.FileOperator;
+import com.example.killdll.storageSDK.local.DBOperator;
 
 import java.util.List;
 
@@ -11,27 +9,15 @@ import java.util.List;
 public class AccessTask {
     public final static String InLocalStorage = "inLocalStorage";
     public final static String InServer = "inServer";
-
     private final static String LocalFIleName = "data.txt";
 
-    private final String saveType;
-    private final static FileOperator fileOperator = new FileOperator(LocalFIleName);
     private List<Task> tasks;
 
-    public AccessTask(Context context, String saveType) {
-        this.saveType = saveType;
-        if (saveType.equals(InLocalStorage)) {
-            this.tasks = fileOperator.loadData(context);
-        }
-    }
-
-    public final void done(Context context) {
-        fileOperator.saveTasks(context, tasks);
-    }
-
-    public final void storeTask(Task[] tasks, String... token) {
-        switch (this.saveType) {
+    public final void storeTask(String saveType, List<Task> tasks, String... token) {
+        switch (saveType) {
             case InLocalStorage:
+                // FIXME: no safe
+                DBOperator.addManyTasks(null, tasks);
 
             case InServer:
 
@@ -40,11 +26,11 @@ public class AccessTask {
         }
     }
 
-    public final void loadOneTaskById(String taskId, String... token) {
+    public final void loadOneTaskById(String taskId) {
 
     }
 
-    public final void loadAllUnfinishedTask(String... token) {
+    public final void loadAllUnfinishedTask() {
 
     }
 
