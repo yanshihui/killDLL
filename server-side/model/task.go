@@ -11,25 +11,44 @@ import (
 
 type TaskState string
 
+type ContentType string
+
 const (
-	Finalize TaskState = "Finalize"
-	Draft    TaskState = "Draft"
+	Finalize   TaskState = "Finalize"
+	InProgress TaskState = "InProgress"
+	Draft      TaskState = "Draft"
+
+	TypeText  ContentType = "Text"
+	TypeImage ContentType = "Image"
 )
 
+type SubTask struct {
+	Content string `json:"content" bson:"content"`
+	Done    bool   `json:"done" bson:"done"`
+}
+
+type ContentNode struct {
+	Type    ContentType `json:"type" bson:"type"`
+	Content string      `json:"content" bson:"content"`
+}
+
 type Task struct {
-	Id        string            `json:"id" bson:"id"`
-	StartTime int64             `json:"startTime" bson:"startTime"`
-	EndTime   int64             `json:"endTime" bson:"endTime"`
-	Theme     string            `json:"theme" bson:"theme"`
-	SubTasks  []map[string]bool `json:"subTasks" bson:"subTasks"`
-	Remarks   []string          `json:"remarks" bson:"remarks"`
-	TaskState TaskState         `json:"taskState" bson:"taskState"`
+	Id                 string        `json:"id" bson:"id"`
+	StartTime          int64         `json:"startTime" bson:"startTime"`
+	EndTime            int64         `json:"endTime" bson:"endTime"`
+	Theme              string        `json:"theme" bson:"theme"`
+	SubTasks           []SubTask     `json:"subTasks" bson:"subTasks"`
+	Remarks            []ContentNode `json:"remarks" bson:"remarks"`
+	TaskState          TaskState     `json:"taskState" bson:"taskState"`
+	DailyReminderTime  int           `json:"dailyReminderTime" bson:"dailyReminderTime"`
+	RemainderMotto     string        `json:"remainderMotto" bson:"remainderMotto"`
+	ScheduleAllocation []float64     `json:"scheduleAllocation" bson:"scheduleAllocation"`
 }
 
 type Receive struct {
 	Message string `json:"message"`
-	Token string `json:"token"`
-	Tasks []Task `json:"tasks"`
+	Token   string `json:"token"`
+	Tasks   []Task `json:"tasks"`
 }
 
 func AddTask(task Task) bool {

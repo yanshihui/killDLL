@@ -10,21 +10,51 @@
 
 ```Java
 public class Task{
-    long startTime;
-    long endTime;
-    
-    String theme;
-    Map<String, bool>[] subTasks;
-    String remarks;
-    
-    // schedule allocation
-    Map taskAllocation;
-    
-    TaskState taskState;
+    private String id;
+    private long startTime;
+    private long endTime;
+    private String theme;
+
+    // recording the sub-task and its completion situation
+    private List<SubTask> subTasks;
+
+    // save remarks as string
+    // if involving picture, convert them by methods in BitmapUtils
+    private List<ContentNode> remarks;
+
+    private String taskState;
+
+    private int dailyReminderTime;
+    private String remainderMotto;
+
+    // by default, it is equally distributed
+    private List<Double> scheduleAllocation;
 }
 
-public enum TaskState{
-    Done, Draft;
+public class SubTask {
+    private String content;
+    private boolean done;
+}
+
+
+public class ContentNode {
+    public static final String TypeText = "Text";
+    public static final String TypeImage = "Image";
+
+    private String type;
+    private String content;
+}
+```
+
+- `Receive`
+
+  model for receiving server return
+
+```go
+type Receive struct {
+	Message string `json:"message"`
+	Token   string `json:"token"`
+	Tasks   []Task `json:"tasks"`
 }
 ```
 
