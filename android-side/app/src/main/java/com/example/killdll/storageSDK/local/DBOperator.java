@@ -48,4 +48,13 @@ public class DBOperator {
         return tasks;
     }
 
+    public static List<Task> queryAllTasks(AppDatabase db){
+        List<Task> tasks = new ArrayList<>();
+        List<DBTask> dbTasks = db.taskDAO().getAllDBTasks();
+        for (DBTask dbTask : dbTasks){
+            tasks.add(dbTask.getTask());
+        }
+        return tasks;
+    }
+
 }

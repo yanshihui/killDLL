@@ -46,7 +46,7 @@ public class Task {
     public Task() {
         this.id = GenerateId.GenerateIdByItems();
         this.startTime = new Date().getTime();
-        this.startTime = new Date().getTime();
+        this.endTime = new Date().getTime() + 1;
         this.theme = "";
         this.subTasks = null;
         this.remarks = null;
@@ -55,6 +55,10 @@ public class Task {
         this.remainderMotto = "";
 
         // million seconds
+        setMeanScheduleAllocation();
+    }
+
+    public void setMeanScheduleAllocation(){
         int day = (int) Math.ceil((this.endTime - this.startTime) / (1000d * 60d * 60d * 24d));
         this.scheduleAllocation = new ArrayList<>();
         double meanPartition = 1d / day;
