@@ -32,14 +32,22 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.example.killdll.db.Task;
 import com.example.killdll.subTask.SubTask;
 import com.example.killdll.subTask.TaskAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.litepal.LitePal;
+import org.litepal.tablemanager.Connector;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NewTaskActivity extends AppCompatActivity {
 
@@ -51,10 +59,17 @@ public class NewTaskActivity extends AppCompatActivity {
     private Button planProgress;
     private Button confirmButton;
     private Button cancelButton;
+    private EditText edTheme;
     private EditText note;
     private Toolbar toolbar;
+    private String theme;
+    private String date;
+    private String time;
+    private String notes;
     private static final int PHOTO_SUCCESS = 1;
     private static final int CAMERA_SUCCESS = 2;
+
+    Task task = new Task();
 
 
 
@@ -131,10 +146,14 @@ public class NewTaskActivity extends AppCompatActivity {
         //摄制时间
         setTime();
 
+        //数据库
+        Connector.getDatabase();//创建数据库
+
 
 
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,15 +193,26 @@ public class NewTaskActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        subTaskList.clear();
+
+
+    }
+
     private void init(){
         addDate = (Button) findViewById(R.id.add_date);
         addTime = (Button) findViewById(R.id.add_time);
         addPicture = (Button) findViewById(R.id.add_picture);
-        planProgress = (Button) findViewById(R.id.edit_plan);
+        planProgress = (Button) findViewById(R.id.button_plan);
         confirmButton = (Button) findViewById(R.id.confirm_button);
         cancelButton = (Button) findViewById(R.id.cancel_button);
         note = (EditText) findViewById(R.id.note);
+        edTheme = (EditText) findViewById(R.id.edit_theme);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+
 
 
 
@@ -228,6 +258,29 @@ public class NewTaskActivity extends AppCompatActivity {
         });
     }
 
+    //保存数据
+    private void saveDB() {
+        theme = edTheme.getText().toString();
+        notes = note.getText().toString();
+        task.setTheme(theme);
+        task.setNote(notes);
+        task.save();
+        finish();
+    }
+    //修改数据
+    private void updateDB() {
+        String newTheme = edTheme.getText().toString();
+        task.setTheme(newTheme);
+        task.updateAll();
+        finish();
+    }
+
+    //删除数据
+    private void deleteDB() {
+       // LitePal.deleteAll(Task.class," = ?",);
+        finish();
+    }
+
     private void takePhoto() {
         addPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,19 +316,6 @@ public class NewTaskActivity extends AppCompatActivity {
         });
     }
 
-    /*
-    //拍照
-    private void pickPicFromCam() {
-
-
-    }
-
-    //从相册中选择
-    private void pickPicFromPic() {
-
-    }
-
-     */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {

@@ -5,15 +5,20 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PlanProgressActivity"></activity>
-        <activity android:name=".DraftsActivity" />
+        <activity android:name=".HistoricalAchievementsActivity"></activity>
+        <activity android:name=".DailySummaryActivity" />
+        <activity android:name=".TodayProgressActivity" />
         <activity android:name=".SetReminderActivity" />
+        <activity android:name=".SetUnifyReminderActivity" />
+        <activity android:name=".PlanProgressActivity" />
+        <activity android:name=".DraftsActivity" />
         <activity android:name=".NewTaskActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

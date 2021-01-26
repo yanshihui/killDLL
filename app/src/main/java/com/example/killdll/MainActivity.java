@@ -7,6 +7,9 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String EVENT_NOTIFICATION_ID = "EVENT_NOTIFICATION";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

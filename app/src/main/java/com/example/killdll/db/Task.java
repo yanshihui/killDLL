@@ -2,13 +2,13 @@ package com.example.killdll.db;
 
 import org.litepal.crud.LitePalSupport;
 
-public class task extends LitePalSupport {
+public class Task extends LitePalSupport {
     private String theme;
     private String date;
     private String time;
     private String subTask;
     private String note;
-    private int plan;
+
 
     public String getDate() {
         return date;
@@ -24,14 +24,6 @@ public class task extends LitePalSupport {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public int getPlan() {
-        return plan;
-    }
-
-    public void setPlan(int plan) {
-        this.plan = plan;
     }
 
     public String getSubTask() {
