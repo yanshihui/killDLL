@@ -1,0 +1,14 @@
+{
+  "mongo_config": {
+    "db_address": "mongodb://@localhost:27017",
+    "db_name": "killDDL",
+    "time_out": 5,
+    "task_collection": "task",
+    "user_collection": "user"
+  },
+  "default_query_time_limit": 20,
+  "jwt_config": {
+    "sign_key": "jfalsfjlejelsgjalsjael",
+    "exp_time": 30
+  }
+}
