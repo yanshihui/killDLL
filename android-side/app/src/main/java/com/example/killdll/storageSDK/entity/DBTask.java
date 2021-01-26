@@ -5,11 +5,17 @@ import androidx.room.PrimaryKey;
 
 import com.alibaba.fastjson.JSON;
 
+import org.jetbrains.annotations.NotNull;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
+@Data
 public class DBTask {
     @PrimaryKey
+    @NotNull
     private String id;
     private long startTime;
     private long endTime;
@@ -23,7 +29,7 @@ public class DBTask {
 
     private String taskState;
 
-    private final int dailyReminderTime;
+    private int dailyReminderTime;
     private String remainderMotto;
 
     // stored by json

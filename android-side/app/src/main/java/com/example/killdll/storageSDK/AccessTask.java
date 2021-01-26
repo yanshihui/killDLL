@@ -1,29 +1,28 @@
 package com.example.killdll.storageSDK;
 
+import android.content.Context;
+
+import androidx.room.Room;
+
 import com.example.killdll.storageSDK.entity.Task;
+import com.example.killdll.storageSDK.local.AppDatabase;
+import com.example.killdll.storageSDK.local.CacheFile;
 import com.example.killdll.storageSDK.local.DBOperator;
+import com.example.killdll.storageSDK.network.HttpAsk;
 
 import java.util.List;
 
 // token is used in network requesting to authentication user
 public class AccessTask {
-    public final static String InLocalStorage = "inLocalStorage";
-    public final static String InServer = "inServer";
-    private final static String LocalFIleName = "data.txt";
 
-    private List<Task> tasks;
+    private final AppDatabase appDatabase;
 
-    public final void storeTask(String saveType, List<Task> tasks, String... token) {
-        switch (saveType) {
-            case InLocalStorage:
-                // FIXME: no safe
-                DBOperator.addManyTasks(null, tasks);
+    public AccessTask(Context context){
+        this.appDatabase = Room.databaseBuilder(context, AppDatabase.class, "killDDL").build();
+    }
 
-            case InServer:
-
-            default:
-
-        }
+    public final void storeTasks(List<Task> tasks) {
+        DBOperator.addManyTasks(this.appDatabase, tasks);
     }
 
     public final void loadOneTaskById(String taskId) {

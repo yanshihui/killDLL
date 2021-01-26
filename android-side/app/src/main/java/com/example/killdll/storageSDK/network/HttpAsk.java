@@ -64,7 +64,7 @@ public class HttpAsk {
         return doRequest(request);
     }
 
-    public static Receive postForAddTask(Task task) {
+    public static Receive postForAddTask(Task task, String token) {
         String postUrl = loadProperties(KeyResourceTaskUrl);
 
         String jsonBodyStr = JSON.toJSONString(task);
@@ -72,13 +72,30 @@ public class HttpAsk {
 
         Request request = new Request.Builder()
                 .url(postUrl)
+                .addHeader("Authorization", "Bearer " + token)
                 .post(body)
                 .build();
 
         return doRequest(request);
     }
 
-    public static Receive deleteTaskByIds(List<String> ids){
+    public static Receive postForAddTasks(List<Task> tasks, String token){
+        // FIXME: fix url
+        String postUrl = loadProperties(KeyResourceTaskUrl);
+
+        String jsonBodyStr = JSON.toJSONString(tasks);
+        RequestBody body = RequestBody.create(jsonBodyStr, jsonType);
+
+        Request request = new Request.Builder()
+                .url(postUrl)
+                .addHeader("Authorization", "Bearer " + token)
+                .post(body)
+                .build();
+
+        return doRequest(request);
+    }
+
+    public static Receive deleteTaskByIds(List<String> ids, String token) {
         String deleteUrl = loadProperties(KeyResourceTaskUrl);
 
         TaskDeleteModel deleteModel = new TaskDeleteModel(ids);
@@ -86,6 +103,7 @@ public class HttpAsk {
 
         Request request = new Request.Builder()
                 .url(deleteUrl)
+                .addHeader("Authorization", "Bearer " + token)
                 .delete(body)
                 .build();
 
@@ -126,6 +144,6 @@ public class HttpAsk {
 
 @Data
 @AllArgsConstructor
-class TaskDeleteModel{
+class TaskDeleteModel {
     List<String> taskIds;
 }
