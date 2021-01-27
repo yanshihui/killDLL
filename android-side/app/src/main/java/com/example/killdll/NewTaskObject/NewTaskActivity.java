@@ -1,4 +1,4 @@
-package com.example.killdll;
+package com.example.killdll.NewTaskObject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +23,6 @@ import android.text.style.ImageSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -32,9 +31,12 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.example.killdll.MainObject.MainActivity;
+import com.example.killdll.PlanProgressActivity;
+import com.example.killdll.R;
+import com.example.killdll.SetReminderActivity;
 import com.example.killdll.subTask.SubTask;
 import com.example.killdll.subTask.TaskAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -84,7 +86,7 @@ public class NewTaskActivity extends AppCompatActivity {
         planProgress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NewTaskActivity.this,PlanProgressActivity.class);
+                Intent intent = new Intent(NewTaskActivity.this, PlanProgressActivity.class);
                 startActivity(intent);
             }
         });
@@ -118,7 +120,7 @@ public class NewTaskActivity extends AppCompatActivity {
                 builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent1 = new Intent(NewTaskActivity.this,MainActivity.class);
+                        Intent intent1 = new Intent(NewTaskActivity.this, MainActivity.class);
                         startActivity(intent1);
                     }
                 });
@@ -147,7 +149,7 @@ public class NewTaskActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.set:  //设置提醒键
-                Intent intent=new Intent(NewTaskActivity.this,SetReminderActivity.class);
+                Intent intent=new Intent(NewTaskActivity.this, SetReminderActivity.class);
                 startActivity(intent);
                 break;
             case android.R.id.home:  //返回键

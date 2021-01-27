@@ -1,8 +1,10 @@
-package com.example.killdll;
+package com.example.killdll.DraftsObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.killdll.R;
 
 public class DraftsActivity extends AppCompatActivity {
 
