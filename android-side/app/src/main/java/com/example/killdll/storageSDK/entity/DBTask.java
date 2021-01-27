@@ -45,7 +45,7 @@ public class DBTask {
         this.remainderMotto = task.getRemainderMotto();
         this.remarks = JSON.toJSONString(task.getRemarks());
         this.subTasks = JSON.toJSONString(task.getSubTasks());
-        this.scheduleAllocation = JSON.toJSONString(task.getDailyReminderTime());
+        this.scheduleAllocation = JSON.toJSONString(task.getScheduleAllocation());
     }
 
     public Task getTask() {

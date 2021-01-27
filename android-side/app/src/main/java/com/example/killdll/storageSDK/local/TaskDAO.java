@@ -21,6 +21,9 @@ public interface TaskDAO {
     @Query("SELECT * FROM DBTask WHERE id = :id")
     DBTask getDBTaskById(String id);
 
+    @Query("SELECT * FROM DBTask")
+    List<DBTask> getAllDBTasks();
+
     @Update
     void updateOneDBTask(DBTask tasks);
 
