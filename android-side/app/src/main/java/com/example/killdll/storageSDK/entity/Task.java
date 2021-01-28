@@ -2,12 +2,17 @@ package com.example.killdll.storageSDK.entity;
 
 import com.example.killdll.storageSDK.utils.GenerateId;
 
+import java.time.Instant;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +26,7 @@ public class Task {
 
     private long startTime;
     private long endTime;
-    private String name;
+    private String theme;
 
     // recording the sub-task and its completion situation
     private List<SubTask> subTasks;
@@ -42,7 +47,7 @@ public class Task {
         this.id = GenerateId.GenerateIdByItems();
         this.startTime = new Date().getTime();
         this.endTime = new Date().getTime() + 1;
-        this.name = "";
+        this.theme = "";
         this.subTasks = null;
         this.remarks = null;
         this.taskState = StateDraft;
@@ -53,11 +58,6 @@ public class Task {
         setMeanScheduleAllocation();
     }
 
-    public Task(String id, String name){
-        this.id =id;
-        this.name = name;
-    }
-
     public void setMeanScheduleAllocation(){
         int day = (int) Math.ceil((this.endTime - this.startTime) / (1000d * 60d * 60d * 24d));
         this.scheduleAllocation = new ArrayList<>();
@@ -65,10 +65,5 @@ public class Task {
         for(int i = 0; i < day; i++){
             scheduleAllocation.add(meanPartition);
         }
-    }
-
-    public void setEndTime(long endTime){
-        this.endTime = endTime;
-        setMeanScheduleAllocation();
     }
 }

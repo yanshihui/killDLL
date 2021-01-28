@@ -1,58 +1,70 @@
 package com.example.killdll.TaskDetailsObject;
 
-import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.killdll.R;
 
-import java.util.Calendar;
-
 public class TaskDetailsActivity extends AppCompatActivity {
 
-    private TextView mTextView;
-    private EditText details_time;
-    private EditText details_rest_time;
+    private Button kill;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_details);
 
-        mTextView = (TextView) findViewById(R.id.text);
-        details_time = (EditText) findViewById(R.id.detail_time);
-        details_rest_time = (EditText) findViewById(R.id.detail_rest_time);
-
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-
-        toolbar.setTitle("任务详情");
-        setSupportActionBar(toolbar);
-        getActionBar().setDisplayShowTitleEnabled(true);
+        kill = (Button) findViewById(R.id.KILL);
+        Toolbar mToolbar = (Toolbar)findViewById(R.id.toolbar);
+        // 设置Toolbar
+        setSupportActionBar(mToolbar);
+        // 显示NavigationIcon,这个方法是ActionBar的方法.Toolbar没有这个方法.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        details_time.setOnClickListener(new View.OnClickListener() {
+        //设置icon
+        mToolbar.setNavigationIcon(R.drawable.ic_return);
+        //设置监听.必须在setSupportActionBar()之后调用
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar mCalendar = Calendar.getInstance();
-                int year = mCalendar.get(Calendar.YEAR);
-                int month = mCalendar.get(Calendar.MONTH);
-                final int day = mCalendar.get(Calendar.DAY_OF_MONTH);
-
-                new DatePickerDialog(TaskDetailsActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        details_time.setText(year+"年"+month+"月"+dayOfMonth+"日");
-                    }
-                },year,month,day).show();
+                finish();
+            }
+        });
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.item_set:
+                        Intent intent = new Intent(TaskDetailsActivity.this,SetActivity.class);
+                        break;
+                    default:
+                        break;
+                }
+                return true;
             }
         });
 
+        kill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_task_detail,menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void setSupportActionBar(Toolbar toolbar) {

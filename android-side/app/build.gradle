@@ -25,6 +25,8 @@ android {
 dependencies {
 
     implementation 'com.getbase:floatingactionbutton:1.10.1'
+    implementation 'site.gemus:openingstartanimation:1.0.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -51,7 +53,7 @@ dependencies {
     // fast json plugin for serialization
     implementation group: 'com.alibaba', name: 'fastjson', version: '1.2.75'
 
-    // okhttp plugin for fast http request
+    // ok http plugin for fast http request
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.0'
 
     def room_version = "2.2.6"

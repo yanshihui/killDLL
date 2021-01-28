@@ -7,18 +7,27 @@
     android:layout_height="match_parent"
     tools:context=".NewTaskObject.NewTaskActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@menu/menu_task_detail">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="5dp"
-            android:layout_height="7dp"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-    </com.google.android.material.appbar.AppBarLayout>
+        <TextView
+            android:id="@+id/titleId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="任务详情"
+            android:textColor="@color/white"
+            android:singleLine="true"
+            android:textSize="22dp"
+            android:layout_gravity="center"/>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +40,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="任务详情："
+            android:text="名称："
             android:textSize="15sp" />
 
         <EditText
@@ -43,6 +52,7 @@
             android:gravity="left"
             android:textSize="15dp"
             android:hint="完成XXX" />
+
     </LinearLayout>
 
 
@@ -113,7 +123,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="实际完成进度:"
+            android:text="已完成:"
             android:textSize="15sp" />
 
         <EditText
@@ -121,7 +131,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="5"
+            android:layout_weight="8"
             android:gravity="left"
             android:textSize="15dp"
             android:hint="50%" />
@@ -134,7 +144,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/subTask2"
+            android:id="@+id/subTask"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -170,95 +180,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:text="每日进度提示:"
-            android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/detail_plan_times"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="2" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:hint="次"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="提示语:"
-            android:textSize="15sp" />
-
-        <EditText
-            android:id="@+id/detail_reminder"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="5"
-            android:gravity="left"
-            android:textSize="15dp"
-            android:hint="加油！！！" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="3"
-            android:gravity="right"
-            android:text="计划进度分配:每天完成"
-            android:textSize="15sp" />
-
-        <EditText
-            android:id="@+id/detail_plan_"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:hint="20"
-            android:textSize="15dp"/>
-
-        <TextView
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="5"
-            android:gravity="left"
-            android:text="%"
-            android:textSize="15sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
             android:text="备注："
@@ -275,5 +196,15 @@
             android:hint="冲冲冲！" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/KILL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="210dp"
+        android:layout_marginLeft="150dp"
+        android:hint="KILL"
+        />
 
 </LinearLayout>
