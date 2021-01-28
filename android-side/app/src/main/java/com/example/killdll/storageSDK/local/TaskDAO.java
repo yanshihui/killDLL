@@ -7,7 +7,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.killdll.storageSDK.entity.DBTask;
-import com.example.killdll.storageSDK.entity.Task;
 
 import java.util.List;
 
@@ -24,6 +23,21 @@ public interface TaskDAO {
     @Query("SELECT * FROM DBTask")
     List<DBTask> getAllDBTasks();
 
+    @Query("SELECT id, name FROM DBTask WHERE taskState = :taskState ORDER BY endTime DESC")
+    List<NameId> getAllTaskNamesByState(String taskState);
+
+    @Query("SELECT scheduleAllocation FROM DBTask ORDER BY endTime DESC")
+    List<String> getAllScheduleAllocation();
+
+    @Query("SELECT *, endTime - MAX(:now, startTime) as gap FROM DBTask ORDER BY gap")
+    List<DBTask> getAllDBTasksOrderByRestTimeInc(long now);
+
+    @Query("DELETE FROM DBTask WHERE id = :id")
+    void deleteDBTaskById(String id);
+
+    @Query("DELETE FROM DBTask WHERE id IN (:ids)")
+    void deleteDBTasksByIds(List<String> ids);
+
     @Update
     void updateOneDBTask(DBTask tasks);
 
@@ -39,4 +53,8 @@ public interface TaskDAO {
     @Delete
     void deleteManyDBTasks(List<DBTask> tasks);
 
+    static class NameId {
+        public String id;
+        public String name;
+    }
 }

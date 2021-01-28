@@ -19,7 +19,7 @@ public class DBTask {
     private String id;
     private long startTime;
     private long endTime;
-    private String theme;
+    private String name;
 
     // stored by json
     private String subTasks;
@@ -39,7 +39,7 @@ public class DBTask {
         this.id = task.getId();
         this.startTime = task.getStartTime();
         this.endTime = task.getEndTime();
-        this.theme = task.getTheme();
+        this.name = task.getName();
         this.taskState = task.getTaskState();
         this.dailyReminderTime = task.getDailyReminderTime();
         this.remainderMotto = task.getRemainderMotto();
@@ -53,7 +53,7 @@ public class DBTask {
         task.setId(this.id);
         task.setStartTime(this.startTime);
         task.setEndTime(this.endTime);
-        task.setTheme(this.theme);
+        task.setName(this.name);
         task.setTaskState(this.taskState);
         task.setDailyReminderTime(this.dailyReminderTime);
         task.setRemainderMotto(this.remainderMotto);
