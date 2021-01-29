@@ -12,7 +12,6 @@ import com.example.killdll.storageSDK.network.HttpAsk;
 
 import java.util.List;
 
-// token is used in network requesting to authentication user
 public class AccessTask {
 
     private final AppDatabase appDatabase;
@@ -21,16 +20,44 @@ public class AccessTask {
         this.appDatabase = Room.databaseBuilder(context, AppDatabase.class, "killDDL").build();
     }
 
-    public final void storeTasks(List<Task> tasks) {
+    public AccessTask(AppDatabase appDatabase){
+        this.appDatabase = appDatabase;
+    }
+
+    public final void storeTask(Task task){
+        DBOperator.addOneTask(this.appDatabase, task);
+    }
+
+    public final void storeTask(List<Task> tasks) {
         DBOperator.addManyTasks(this.appDatabase, tasks);
     }
 
-    public final void loadOneTaskById(String taskId) {
-
+    public final Task loadOneTaskById(String taskId) {
+        return DBOperator.queryTaskById(appDatabase, taskId);
     }
 
-    public final void loadAllUnfinishedTask() {
 
+    public final List<Task> loadAllDraftTaskNames(){
+        return DBOperator.queryAllTaskNamesByState(this.appDatabase, Task.StateDraft);
     }
 
+    public final List<List<Double>> loadAllScheduleAllocation(){
+        return DBOperator.queryAllScheduleAllocation(this.appDatabase);
+    }
+
+    public final List<Task> loadAllTaskByRestTimeInc(){
+        return DBOperator.queryTasksByRestTimeInc(this.appDatabase);
+    }
+
+    public final void deleteTasksById(String id){
+        DBOperator.deleteOneTaskById(this.appDatabase, id);
+    }
+
+    public final void deleteTaskById(List<String> ids){
+        DBOperator.deleteManyTasksById(this.appDatabase, ids);
+    }
+
+    public final void updateTask(Task task){
+        DBOperator.updateOneTask(this.appDatabase, task);
+    }
 }
