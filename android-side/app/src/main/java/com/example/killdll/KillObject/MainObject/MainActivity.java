@@ -6,12 +6,16 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.killdll.KillObject.DraftsObject.DraftsActivity;
 import com.example.killdll.MyObject.MyActivity;
 import com.example.killdll.KillObject.NewTaskObject.NewTaskActivity;
 import com.example.killdll.R;
 import com.example.killdll.KillObject.subTask.SubTask;
+import com.example.killdll.storageSDK.AccessTask;
+import com.example.killdll.storageSDK.entity.Task;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
@@ -20,7 +24,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    AccessTask accessTask = new AccessTask(getApplicationContext());
+
     private List<SubTask> taskList = new ArrayList<>();
+    private List<UnfinishedTask> unfinishedTaskList = new ArrayList<>();
+    private List<FinishedTask> finishedTaskList = new ArrayList<>();
     public static FloatingActionsMenu fab;
     FloatingActionButton fab_newTask,fab_draft;
 
@@ -28,7 +36,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initTasks();
+        initUnfinishedTasks();
+        initFinishedTasks();
+        RecyclerView unfinished_recyclerView = (RecyclerView) findViewById(R.id.unfinished_view);
+        RecyclerView finished_recyclerView = (RecyclerView) findViewById(R.id.finished_view);
+        LinearLayoutManager unfinished_layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager finished_layoutManager = new LinearLayoutManager(this);
+        unfinished_recyclerView.setLayoutManager(unfinished_layoutManager);
+        finished_recyclerView.setLayoutManager(finished_layoutManager);
+        UnfinishedTaskAdapter unfinishedTaskAdapter = new UnfinishedTaskAdapter(unfinishedTaskList);
+        FinishedTaskAdapter finishedTaskAdapter = new FinishedTaskAdapter(finishedTaskList);
+        unfinished_recyclerView.setAdapter(unfinishedTaskAdapter);
+        finished_recyclerView.setAdapter(finishedTaskAdapter);
         // Kill、我的 按钮
         Button button_ddl = (Button) findViewById(R.id.button_ddl);
         Button button_my = (Button) findViewById(R.id.button_my);
@@ -65,6 +84,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void initTasks(){
+    private void initUnfinishedTasks(){
+
+    }
+
+    private void initFinishedTasks() {
+
     }
 }

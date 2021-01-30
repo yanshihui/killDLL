@@ -109,7 +109,6 @@
             fab:fab_addButtonPlusIconColor="@color/half_black"
             fab:menu_icon="@drawable/add"
             android:layout_gravity="end|bottom"
-            android:layout_marginTop="140dp"
             android:layout_marginRight="20dp">
 
             <com.getbase.floatingactionbutton.FloatingActionButton

@@ -36,7 +36,6 @@ public class AccessTask {
         return DBOperator.queryTaskById(appDatabase, taskId);
     }
 
-
     public final List<Task> loadAllDraftTaskNames(){
         return DBOperator.queryAllTaskNamesByState(this.appDatabase, Task.StateDraft);
     }
