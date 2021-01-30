@@ -13,10 +13,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".MyObject.MyActivity"
+            android:label="@string/title_activity_my">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <uses-library
             android:name="com.google.android.wearable"
             android:required="true" />
-
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -26,7 +35,7 @@
             android:value="true" />
 
         <activity
-            android:name=".TaskDetailsObject.SetActivity"
+            android:name=".KillObject.TaskDetailsObject.SetActivity"
             android:label="@string/title_activity_set">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,10 +43,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DraftsObject.DraftsActivity" />
-        <activity android:name=".SetReminderActivity" />
-        <activity android:name=".NewTaskObject.NewTaskActivity" />
-        <activity android:name=".MainObject.MainActivity">
+        <activity android:name=".KillObject.DraftsObject.DraftsActivity" />
+        <activity android:name=".KillObject.NewTaskObject.SetReminderActivity" />
+        <activity android:name=".KillObject.NewTaskObject.NewTaskActivity" />
+        <activity android:name=".KillObject.MainObject.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

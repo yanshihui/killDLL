@@ -1,4 +1,4 @@
-package com.example.killdll.subTask;
+package com.example.killdll.KillObject.subTask;
 
 public class SubTask {
         private String task;

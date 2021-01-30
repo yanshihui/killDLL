@@ -5,24 +5,79 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewTaskObject.NewTaskActivity">
+    tools:context=".KillObject.NewTaskObject.NewTaskActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Kill DDL"
+            android:textSize="30dp"
+            android:textColor="#ffffff"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="15dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimaryPressed">
+
+            <Button
+                android:id="@+id/button_ddl"
+                android:layout_width="180dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:text="DDL"
+                android:textSize="15sp"
+                android:background="@drawable/button_bg" />
+
+            <Button
+                android:id="@+id/button_my"
+                android:layout_width="180dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:text="我的"
+                android:textSize="15sp"
+                android:background="@drawable/button_bg_pressed"/>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="待完成"/>
+                android:orientation="horizontal">
 
-            <ListView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="待完成("/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="0"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint=")"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/finished_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -39,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:hint="已完成"/>
 
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/unfinished_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -53,7 +108,9 @@
             fab:fab_addButtonColorPressed="@color/white_pressed"
             fab:fab_addButtonPlusIconColor="@color/half_black"
             fab:menu_icon="@drawable/add"
-            android:layout_gravity="end|bottom">
+            android:layout_gravity="end|bottom"
+            android:layout_marginTop="140dp"
+            android:layout_marginRight="20dp">
 
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_newTask"

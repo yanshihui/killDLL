@@ -1,15 +1,17 @@
-package com.example.killdll.MainObject;
+package com.example.killdll.KillObject.MainObject;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.killdll.DraftsObject.DraftsActivity;
-import com.example.killdll.NewTaskObject.NewTaskActivity;
+import com.example.killdll.KillObject.DraftsObject.DraftsActivity;
+import com.example.killdll.MyObject.MyActivity;
+import com.example.killdll.KillObject.NewTaskObject.NewTaskActivity;
 import com.example.killdll.R;
-import com.example.killdll.subTask.SubTask;
+import com.example.killdll.KillObject.subTask.SubTask;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
@@ -27,6 +29,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initTasks();
+        // Kill、我的 按钮
+        Button button_ddl = (Button) findViewById(R.id.button_ddl);
+        Button button_my = (Button) findViewById(R.id.button_my);
+        button_my.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MyActivity.class);
+                startActivity(intent);
+            }
+        });
+        // 悬浮按钮菜单
         fab_newTask = findViewById(R.id.fab_newTask);
         fab_draft = findViewById(R.id.fab_draft);
         // 判断草稿箱内是否有任务

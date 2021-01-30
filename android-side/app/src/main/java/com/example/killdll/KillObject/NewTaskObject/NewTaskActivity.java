@@ -1,4 +1,4 @@
-package com.example.killdll.NewTaskObject;
+package com.example.killdll.KillObject.NewTaskObject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,12 +31,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
-import com.example.killdll.MainObject.MainActivity;
-import com.example.killdll.PlanProgressActivity;
+import com.example.killdll.KillObject.MainObject.MainActivity;
 import com.example.killdll.R;
-import com.example.killdll.SetReminderActivity;
-import com.example.killdll.subTask.SubTask;
-import com.example.killdll.subTask.TaskAdapter;
+import com.example.killdll.KillObject.subTask.SubTask;
+import com.example.killdll.KillObject.subTask.TaskAdapter;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

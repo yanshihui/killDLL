@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Unfinished_task"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/Unfinished_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textColor="#000000"
+        android:hint=""
+        android:layout_marginLeft="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="DDL:"
+            android:textSize="15sp"
+            android:textColor="#9d9d9d"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:id="@+id/Unfinished_ddl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="#9d9d9d" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="剩余时间："
+            android:textSize="15sp"
+            android:textColor="#9d9d9d"
+            android:layout_marginLeft="70dp"/>
+        <TextView
+            android:id="@+id/Unfinished_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="#9d9d9d" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="完成进度："
+            android:textSize="15sp"
+            android:textColor="#9d9d9d"
+            android:layout_marginLeft="70dp"/>
+        <TextView
+            android:id="@+id/Unfinished_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="#9d9d9d" />
+
+    </LinearLayout>
+
+</LinearLayout>
