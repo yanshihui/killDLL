@@ -3,12 +3,15 @@ package com.example.killdll.KillObject.NewTaskObject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,59 +22,88 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.ImageSpan;
+import android.util.Log;
+import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+
 import com.example.killdll.KillObject.MainObject.MainActivity;
 import com.example.killdll.R;
-import com.example.killdll.KillObject.subTask.SubTask;
-import com.example.killdll.KillObject.subTask.TaskAdapter;
+import com.example.killdll.storageSDK.AccessTask;
+import com.example.killdll.storageSDK.entity.ContentNode;
+import com.example.killdll.storageSDK.entity.Task;
+//import com.example.killdll.subTask.TaskAdapter;
 
 import java.io.FileNotFoundException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class NewTaskActivity extends AppCompatActivity {
 
-    private List<SubTask> subTaskList = new ArrayList<>();
+
 
     private Button addDate;
     private Button addTime;
-    private Button addPicture;
+    private ImageButton addPicture;
     private Button planProgress;
     private Button confirmButton;
     private Button cancelButton;
+    private EditText edTheme;
     private EditText note;
     private Toolbar toolbar;
+    private ImageButton reminderButton;
     private static final int PHOTO_SUCCESS = 1;
     private static final int CAMERA_SUCCESS = 2;
 
 
+    //private RecyclerView mRecyclerView;
+    //private TaskAdapter mAdapter;
+    private List<String> mList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private LinearLayoutManager llm;
+    private RecyclerView.Adapter adapter;
 
 
+    private List<ContentNode> mRemarks;
 
+
+    private Task newTask;
+    private String name;
+    private long dateL;
+    private AccessTask accessTask ;
+    private String dailyReminderTime;
+    private String reminderMotto;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
         init();
-        initTasks();
         takePhoto();
         toolbar.setTitle("");
         setActionBar(toolbar);
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        TaskAdapter adapter = new TaskAdapter(NewTaskActivity.this,R.layout.task_item,subTaskList);
+        //TaskAdapter adapter = new TaskAdapter(NewTaskActivity.this,R.layout.task_item,subTaskList);
         ListView listView = (ListView) findViewById(R.id.recycler_view);
 //        listView.setOnClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
@@ -84,8 +116,23 @@ public class NewTaskActivity extends AppCompatActivity {
         planProgress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NewTaskActivity.this, PlanProgressActivity.class);
+                Intent intent = new Intent(NewTaskActivity.this,PlanProgressActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        //点击按钮进入提醒设置界面
+        reminderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    store();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Intent intent2 = new Intent(NewTaskActivity.this,SetReminderActivity.class);
+                intent2.putExtra("id",newTask.getId());
+                startActivityForResult(intent2,3);
             }
         });
 
@@ -95,6 +142,12 @@ public class NewTaskActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                newTask.setTaskState("InProgress");
+                try {
+                    store();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
@@ -111,53 +164,14 @@ public class NewTaskActivity extends AppCompatActivity {
                 builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                //点击否，删除并返回主界面
-                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent1 = new Intent(NewTaskActivity.this, MainActivity.class);
-                        startActivity(intent1);
-                    }
-                });
-                builder.show();
-            }
-        });
-
-        //设置日期
-        setDate();
-        //摄制时间
-        setTime();
-
-
-
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar,menu);
-        return true;
-    }
-
-    //toolbar上的按钮功能实现
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.set:  //设置提醒键
-                Intent intent=new Intent(NewTaskActivity.this, SetReminderActivity.class);
-                startActivity(intent);
-                break;
-            case android.R.id.home:  //返回键
-                AlertDialog.Builder builder = new AlertDialog.Builder(NewTaskActivity.this);
-                builder.setTitle("是否保存");
-                //点击是，保存到草稿箱，并返回主界面
-                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
+                        newTask.setTaskState("Draft");
+                        try {
+                            store();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Intent intent = new Intent(NewTaskActivity.this, MainActivity.class);
+                        startActivity(intent);
                     }
                 });
                 //点击否，删除并返回主界面
@@ -169,28 +183,95 @@ public class NewTaskActivity extends AppCompatActivity {
                     }
                 });
                 builder.show();
+            }
+        });
+
+        //设置日期
+        setDate();
+        //摄制时间
+        setTime();
+        initSubTask();
+
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar,menu);
+        return true;
+    }
+
+    //toolbar上的按钮功能实现
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            /*
+            case R.id.set:  //设置提醒键
+                Intent intent=new Intent(NewTaskActivity.this,SetReminderActivity.class);
+                startActivity(intent);
+                break;
+
+             */
+            case android.R.id.home:  //返回键
+                AlertDialog.Builder builder = new AlertDialog.Builder(NewTaskActivity.this);
+                builder.setTitle("是否保存");
+                //点击是，保存到草稿箱，并返回主界面
+                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        newTask.setTaskState("Draft");
+                        try {
+                            store();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Intent intent3 = new Intent(NewTaskActivity.this, MainActivity.class);
+                        startActivity(intent3);
+
+
+                    }
+                });
+                //点击否，删除并返回主界面
+                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       Intent intent1 = new Intent(NewTaskActivity.this, MainActivity.class);
+                       startActivity(intent1);
+                    }
+                });
+                builder.show();
             default:
         }
         return true;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+       // subTaskList.clear();
+
+
+    }
+
     private void init(){
         addDate = (Button) findViewById(R.id.add_date);
         addTime = (Button) findViewById(R.id.add_time);
-        addPicture = (Button) findViewById(R.id.add_picture);
+        addPicture = (ImageButton) findViewById(R.id.add_picture);
         planProgress = (Button) findViewById(R.id.edit_plan);
         confirmButton = (Button) findViewById(R.id.confirm_button);
         cancelButton = (Button) findViewById(R.id.cancel_button);
         note = (EditText) findViewById(R.id.note);
+        edTheme = (EditText) findViewById(R.id.edit_theme);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        reminderButton = (ImageButton) findViewById(R.id.set1);
+
+
 
 
 
     }
 
-    private void initTasks() {
-
-    }
 
     private void setDate() {
         addDate.setOnClickListener(new View.OnClickListener() {
@@ -228,6 +309,10 @@ public class NewTaskActivity extends AppCompatActivity {
         });
     }
 
+
+
+
+
     private void takePhoto() {
         addPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,7 +321,7 @@ public class NewTaskActivity extends AppCompatActivity {
                         .setIcon(R.mipmap.ic_launcher)
                         .setTitle("选择图片：")
                         //设置两个item
-                        .setItems(new String[]{"相机","图库"}, new android.content.DialogInterface.OnClickListener(){
+                        .setItems(new String[]{"相机","图库"}, new DialogInterface.OnClickListener(){
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -244,14 +329,14 @@ public class NewTaskActivity extends AppCompatActivity {
                                     case 0://拍照
                                         Intent getImageByCamera= new Intent("android.media.action.IMAGE_CAPTURE");
                                         startActivityForResult(getImageByCamera, CAMERA_SUCCESS);
-                                        // pickPicFromCam();
+                                       // pickPicFromCam();
                                         break;
                                     case 1://从相册中选择
                                         Intent getImage = new Intent(Intent.ACTION_GET_CONTENT);
                                         getImage.addCategory(Intent.CATEGORY_OPENABLE);
                                         getImage.setType("image/*");
                                         startActivityForResult(getImage, PHOTO_SUCCESS);
-                                        // pickPicFromPic();
+                                       // pickPicFromPic();
                                         break;
                                     default:
                                         break;
@@ -263,14 +348,6 @@ public class NewTaskActivity extends AppCompatActivity {
         });
     }
 
-    /*
-    //拍照
-    private void pickPicFromCam() {
-    }
-    //从相册中选择
-    private void pickPicFromPic() {
-    }
-     */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
@@ -333,6 +410,10 @@ public class NewTaskActivity extends AppCompatActivity {
                     break;
                 default:
                     break;
+                case 3:
+                   dailyReminderTime = intent.getStringExtra("dailyReminderTime");
+                   reminderMotto = intent.getStringExtra("reminderMotto");
+
             }
         }
         super.onActivityResult(requestCode, resultCode, intent);
@@ -358,6 +439,173 @@ public class NewTaskActivity extends AppCompatActivity {
         Bitmap resizedBitmap = Bitmap.createBitmap(originalBitmap,0,0,width,height,matrix,true);
         return resizedBitmap;
     }
+
+    private  void store() throws ParseException {
+        name = edTheme.getText().toString();
+        newTask.setName(name);
+
+        String date = addDate.getText().toString();
+        String formatType = "yyyy年MM月dd日";
+        dateL = stringToLong(date,formatType);
+        newTask.setEndTime(dateL);
+
+
+        newTask.setDailyReminderTime(Integer.parseInt(dailyReminderTime));
+        newTask.setRemainderMotto(reminderMotto);
+
+
+
+
+
+
+        accessTask.storeTask(newTask);
+        //int num = accessTask.loadAllDraftTaskNames().size();
+
+
+    }
+
+
+    // strTime要转换的string类型的时间，formatType要转换的格式yyyy-MM-dd HH:mm:ss//yyyy年MM月dd日
+    // HH时mm分ss秒，
+    // strTime的时间格式必须要与formatType的时间格式相同
+    public static Date stringToDate(String strTime, String formatType)
+            throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat(formatType);
+        Date date = null;
+        date = formatter.parse(strTime);
+        return date;
+    }
+
+    // strTime要转换的String类型的时间
+    // formatType时间格式
+    // strTime的时间格式和formatType的时间格式必须相同
+    public static long stringToLong(String strTime, String formatType)
+            throws ParseException {
+        Date date = stringToDate(strTime, formatType); // String类型转成date类型
+        if (date == null) {
+            return 0;
+        } else {
+            long currentTime = dateToLong(date); // date类型转成long类型
+            return currentTime;
+        }
+    }
+        // date要转换的date类型的时间
+        public static long dateToLong(Date date) {
+            return date.getTime();
+    }
+/*
+    private void initSubTask() {
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        for (int i = 0; i < 31; i++) {
+            mList.add("第" + i + "行");
+        }
+
+        LinearLayoutManager mManager = new LinearLayoutManager(NewTaskActivity.this, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(mManager);
+        mAdapter = new TaskAdapter(NewTaskActivity.this, mList);
+        mRecyclerView.setAdapter(mAdapter);
+
+    }
+
+ */
+
+
+    private void initSubTask() {
+            recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+            recyclerView.setLayoutManager(llm = new LinearLayoutManager(NewTaskActivity.this, LinearLayoutManager.VERTICAL, false));
+            //recyclerView.addItemDecoration(new DividerItemDecoration(NewTaskActivity.this, DividerItemDecoration.VERTICAL_LIST));
+            recyclerView.setAdapter(adapter = new RecyclerView.Adapter() {
+                //输入法
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                //edittext里的文字内容集合
+                SparseArray<String> etTextAry = new SparseArray();
+                //edittext的焦点位置
+                int etFocusPos = -1;
+                TextWatcher textWatcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        //每次修改文字后，保存在数据集合中
+                        Log.e("tag", "index=" + etFocusPos + ",save=" + s.toString());
+                        etTextAry.put(etFocusPos, s.toString());
+                    }
+                };
+
+                @Override
+                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                    View itemLayout = LayoutInflater.from(NewTaskActivity.this).inflate(
+                            R.layout.subtask_content, parent, false);
+                    return new ItemHolder(itemLayout);
+                }
+
+                @Override
+                public synchronized void onBindViewHolder(RecyclerView.ViewHolder holder, int i) {
+                    Log.e("tag", "绑定Holder,index=" + i);
+                    final int position = i;
+                    ItemHolder viewHolder = (ItemHolder) holder;
+                   // viewHolder.imb.set
+                    viewHolder.et.setText(etTextAry.get(position));
+                    viewHolder.et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                        @Override
+                        public void onFocusChange(View view, boolean b) {
+                            if (b) {
+                                etFocusPos = position;
+                                Log.e("tag", "etFocusPos焦点选中-" + etFocusPos);
+                            }
+                        }
+                    });
+                }
+
+                @Override
+                public int getItemCount() {
+                    return 50;
+                }
+
+                @Override
+                public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+                    super.onViewDetachedFromWindow(holder);
+                    Log.e("tag", "隐藏item=" + holder.getAdapterPosition());
+                    ItemHolder viewHolder = (ItemHolder) holder;
+                    viewHolder.et.removeTextChangedListener(textWatcher);
+                    viewHolder.et.clearFocus();
+                    if (etFocusPos == holder.getAdapterPosition()) {
+                        inputMethodManager.hideSoftInputFromWindow(((ItemHolder) holder).et.getWindowToken(), 0);
+                    }
+                }
+
+                @Override
+                public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+                    super.onViewAttachedToWindow(holder);
+                    Log.e("tag", "显示item=" + holder.getAdapterPosition());
+                    ItemHolder viewHolder = (ItemHolder) holder;
+                    viewHolder.et.addTextChangedListener(textWatcher);
+                    if (etFocusPos == holder.getAdapterPosition()) {
+                        viewHolder.et.requestFocus();
+                        viewHolder.et.setSelection(viewHolder.et.getText().length());
+                    }
+                }
+
+                class ItemHolder extends RecyclerView.ViewHolder {
+                    private ImageButton imb;
+                    private EditText et;
+
+                    public ItemHolder(View itemView) {
+                        super(itemView);
+                        imb = (ImageButton) itemView.findViewById(R.id.click);
+                        et = (EditText) itemView.findViewById(R.id.subTask_content);
+                    }
+                }
+            });
+        }
 
 
 

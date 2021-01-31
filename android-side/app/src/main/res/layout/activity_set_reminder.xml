@@ -1,9 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".KillObject.NewTaskObject.SetReminderActivity">
+    android:orientation="vertical" >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#FF007aff"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/return_new"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_return" />
+
+        <TextView
+            android:layout_marginLeft="80dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="提醒设置"
+            android:textColor="#fffefefe"
+            android:textSize="25sp" />
+        </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="18dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="13dp"
+                android:text="(建议尽早开始哦)"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/one"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_rectangle_bule"
+                    android:text="一次"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/two"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="9dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_rectangle_bule"
+                    android:text="两次"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/three"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="9dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_rectangle_bule"
+                    android:text="三次"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/other"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="9dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_rectangle_bule"
+                    android:text="自定义"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="16dp"
+                android:text="Day1:"
+                android:textSize="20sp" />
+          </LinearLayout>
+
+          <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/ic_rectangle_edit"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="#fff7f7f7"
+                    app:cardCornerRadius="12dp">
+
+                        <EditText
+                            android:id="@+id/reminder_words"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_rectangle_edit"
+                            android:hint="输入自定义提示语" />
+                </androidx.cardview.widget.CardView>
+                        <View
+                            style="@style/Divider"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp" />
+                <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="#fff7f7f7"
+                    app:cardCornerRadius="12dp">
+
+                        <TextView
+                            android:layout_marginLeft="7dp"
+                            android:layout_marginTop="8dp"
+                            android:id="@+id/reminder1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="快去完成你的DDL!!!快快快!!!"
+                            android:clickable="true"
+                            android:textColor="@color/gray"
+                            android:textSize="18dp" />
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="#fff7f7f7"
+                    app:cardCornerRadius="12dp">
+
+                    <TextView
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/reminder2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="别打游戏别追剧了，你还有很多DDL。。。"
+                        android:clickable="true"
+                        android:textColor="@color/gray"
+                        android:textSize="18dp" />
+                </androidx.cardview.widget.CardView>
+
+              <Button
+                  android:id="@+id/more"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="查看更多"
+                  android:textSize="18dp"
+                  android:background="@drawable/ic_rectangle_edit" />
+          </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginBottom="27dp">
+
+                <Button
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|left"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="取消"
+                    android:textSize="22sp"
+                    android:textColor="#ffffffff"
+                    android:background="@drawable/ic_rectangle_bule"/>
+
+                <Button
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="20dp"
+                    android:id="@+id/save"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="保存"
+                    android:textSize="22sp"
+                    android:textColor="#ffffffff"
+                    android:background="@drawable/ic_rectangle_bule"/>
+            </LinearLayout>
+
+
+
+
+</LinearLayout>
