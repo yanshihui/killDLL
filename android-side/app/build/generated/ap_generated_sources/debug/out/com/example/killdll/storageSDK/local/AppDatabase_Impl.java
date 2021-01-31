@@ -30,9 +30,9 @@ public final class AppDatabase_Impl extends AppDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `DBTask` (`id` TEXT NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `theme` TEXT, `subTasks` TEXT, `remarks` TEXT, `taskState` TEXT, `dailyReminderTime` INTEGER NOT NULL, `remainderMotto` TEXT, `scheduleAllocation` TEXT, PRIMARY KEY(`id`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `DBTask` (`id` TEXT NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `name` TEXT, `subTasks` TEXT, `remarks` TEXT, `taskState` TEXT, `dailyReminderTime` INTEGER NOT NULL, `remainderMotto` TEXT, `scheduleAllocation` TEXT, PRIMARY KEY(`id`))");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '076eb2ce6b9c62a45daec8b197342dbb')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ccee39f29c162976076b76b49041bc03')");
       }
 
       @Override
@@ -80,7 +80,7 @@ public final class AppDatabase_Impl extends AppDatabase {
         _columnsDBTask.put("id", new TableInfo.Column("id", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsDBTask.put("startTime", new TableInfo.Column("startTime", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsDBTask.put("endTime", new TableInfo.Column("endTime", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsDBTask.put("theme", new TableInfo.Column("theme", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsDBTask.put("name", new TableInfo.Column("name", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsDBTask.put("subTasks", new TableInfo.Column("subTasks", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsDBTask.put("remarks", new TableInfo.Column("remarks", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsDBTask.put("taskState", new TableInfo.Column("taskState", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -98,7 +98,7 @@ public final class AppDatabase_Impl extends AppDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "076eb2ce6b9c62a45daec8b197342dbb", "804209ea091831f01b7411455829a703");
+    }, "ccee39f29c162976076b76b49041bc03", "dafc34f0f51c50bedf19e9639277926a");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)

@@ -12,9 +12,21 @@ import com.example.killdll.R;
 
 import java.util.List;
 
-public class UnfinishedTaskAdapter extends RecyclerView.Adapter<UnfinishedTaskAdapter.ViewHolder> {
+public class UnfinishedTaskAdapter extends RecyclerView.Adapter<UnfinishedTaskAdapter.ViewHolder> implements View.OnClickListener {
 
     private List<UnfinishedTask> mUnfinishedTaskList;
+    private OnItemClickListener mOnItemClickListener;
+
+    @Override
+    public void onClick(View view) {
+        if(mOnItemClickListener != null){
+            mOnItemClickListener.onItemClick(view,(int)view.getTag());
+        }
+    }
+
+    public  void setOnItemClickListener(OnItemClickListener listener){
+        this.mOnItemClickListener = listener;
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView unfinished_title;
@@ -40,6 +52,7 @@ public class UnfinishedTaskAdapter extends RecyclerView.Adapter<UnfinishedTaskAd
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.unfinished_task,parent,false);
         ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnClickListener(this);
         return viewHolder;
     }
 
@@ -50,10 +63,16 @@ public class UnfinishedTaskAdapter extends RecyclerView.Adapter<UnfinishedTaskAd
         holder.unfinished_ddl.setText(UnfinishedTask.getUnfinished_ddl());
         holder.unfinished_time.setText(UnfinishedTask.getUnfinished_time());
         holder.unfinished_progress.setText(UnfinishedTask.getUnfinished_progress());
+        holder.itemView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
         return mUnfinishedTaskList.size();
     }
+
+    public interface OnItemClickListener{
+        void onItemClick(View view,int position);
+    }
+
 }

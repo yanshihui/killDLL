@@ -71,4 +71,5 @@ public class Task {
         this.endTime = endTime;
         setMeanScheduleAllocation();
     }
+
 }

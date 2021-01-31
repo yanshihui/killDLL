@@ -40,6 +40,14 @@ public class AccessTask {
         return DBOperator.queryAllTaskNamesByState(this.appDatabase, Task.StateDraft);
     }
 
+    public final List<Task> loadAllFinalizeTaskNames(){
+        return DBOperator.queryAllTaskNamesByState(this.appDatabase,Task.StateFinalize);
+    }
+
+    public final List<Task> loadAllInProgressTaskNames(){
+        return DBOperator.queryAllTaskNamesByState(this.appDatabase,Task.StateInProgress);
+    }
+
     public final List<List<Double>> loadAllScheduleAllocation(){
         return DBOperator.queryAllScheduleAllocation(this.appDatabase);
     }

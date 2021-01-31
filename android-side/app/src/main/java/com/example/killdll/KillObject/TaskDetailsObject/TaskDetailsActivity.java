@@ -1,16 +1,28 @@
 package com.example.killdll.KillObject.TaskDetailsObject;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.killdll.R;
+import com.example.killdll.storageSDK.AccessTask;
+import com.example.killdll.storageSDK.entity.ContentNode;
+import com.example.killdll.storageSDK.entity.SubTask;
+import com.example.killdll.storageSDK.entity.Task;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import static java.lang.Math.max;
 
 public class TaskDetailsActivity extends AppCompatActivity {
 
@@ -20,6 +32,31 @@ public class TaskDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_details);
+
+        AccessTask accessTask = new AccessTask(getApplicationContext());
+
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
+
+        TextView detail_theme = (TextView) findViewById(R.id.detail_theme);
+        TextView detail_time = (TextView) findViewById(R.id.detail_time);
+        TextView detail_rest_time = (TextView) findViewById(R.id.detail_rest_time);
+        TextView detail_fact = (TextView) findViewById(R.id.detail_fact);
+        TextView detail_note = (TextView) findViewById(R.id.detail_note);
+
+        Task task = accessTask.loadOneTaskById(id);
+
+        detail_theme.setText(task.getName());
+        detail_time.setText(String.valueOf(task.getEndTime()));
+        long now = new Date().getTime();
+        long unf_time = task.getEndTime()-max(task.getStartTime(),now);
+        detail_rest_time.setText(String.valueOf(unf_time));
+        detail_fact.setText("0");
+
+        List<SubTask> subTasks = task.getSubTasks();
+        List<ContentNode> note = task.getRemarks();
+
+        detail_note.setText("");
 
         kill = (Button) findViewById(R.id.KILL);
         Toolbar mToolbar = (Toolbar)findViewById(R.id.toolbar);
