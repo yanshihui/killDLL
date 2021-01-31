@@ -14,11 +14,13 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -46,6 +48,7 @@ import com.example.killdll.KillObject.MainObject.MainActivity;
 import com.example.killdll.R;
 import com.example.killdll.storageSDK.AccessTask;
 import com.example.killdll.storageSDK.entity.ContentNode;
+import com.example.killdll.storageSDK.entity.SubTask;
 import com.example.killdll.storageSDK.entity.Task;
 //import com.example.killdll.subTask.TaskAdapter;
 
@@ -78,12 +81,18 @@ public class NewTaskActivity extends AppCompatActivity {
     //private RecyclerView mRecyclerView;
     //private TaskAdapter mAdapter;
     private List<String> mList = new ArrayList<>();
+    private List<SubTask> mSubTaskList = new ArrayList<>();
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
     private RecyclerView.Adapter adapter;
+    private SubTask subTask;
+
 
 
     private List<ContentNode> mRemarks;
+    ContentNode mRemark;
+    private static final int RESIZE_REQUEST_CODE = 2;
+
 
 
     private Task newTask;
@@ -191,6 +200,7 @@ public class NewTaskActivity extends AppCompatActivity {
         //摄制时间
         setTime();
         initSubTask();
+
 
     }
 
@@ -384,6 +394,21 @@ public class NewTaskActivity extends AppCompatActivity {
                     }else{
                         Toast.makeText(NewTaskActivity.this, "获取图片失败", Toast.LENGTH_SHORT).show();
                     }
+
+
+                    //将uri转换成string 存储
+                    resizeImage(originalUri);
+                    //以下方法将获取的uri转为String类型哦！
+                    String []imgs={MediaStore.Images.Media.DATA};//将图片URI转换成存储路径
+                    Cursor cursor=this.managedQuery(originalUri, imgs, null, null, null);
+                    int index=cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    cursor.moveToFirst();
+                    String img_url=cursor.getString(index);
+                    //存数据库
+                    mRemark.setContent(img_url);
+                    mRemark.setType("Image");
+                    mRemarks.add(mRemark);
+
                     break;
                 case CAMERA_SUCCESS:
                     Bundle extras = intent.getExtras();
@@ -397,12 +422,12 @@ public class NewTaskActivity extends AppCompatActivity {
                         //  用ImageSpan对象替换face
                         spannableString.setSpan(imageSpan, 0, "[local]1[local]".length()+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         //将选择的图片追加到EditText中光标所在位置
-                        int index = note.getSelectionStart(); //获取光标所在位置
+                        int index1 = note.getSelectionStart(); //获取光标所在位置
                         Editable edit_text = note.getEditableText();
-                        if(index <0 || index >= edit_text.length()){
+                        if(index1 <0 || index1 >= edit_text.length()){
                             edit_text.append(spannableString);
                         }else{
-                            edit_text.insert(index, spannableString);
+                            edit_text.insert(index1, spannableString);
                         }
                     }else{
                         Toast.makeText(NewTaskActivity.this, "获取图片失败", Toast.LENGTH_SHORT).show();
@@ -449,14 +474,17 @@ public class NewTaskActivity extends AppCompatActivity {
         dateL = stringToLong(date,formatType);
         newTask.setEndTime(dateL);
 
+        newTask.setSubTasks(mSubTaskList);
+
 
         newTask.setDailyReminderTime(Integer.parseInt(dailyReminderTime));
         newTask.setRemainderMotto(reminderMotto);
 
-
-
-
-
+        String remarkText = note.getText().toString();
+        mRemark.setContent(remarkText);
+        mRemark.setType("Text");
+        mRemarks.add(mRemark);
+        newTask.setRemarks(mRemarks);
 
         accessTask.storeTask(newTask);
         //int num = accessTask.loadAllDraftTaskNames().size();
@@ -511,6 +539,18 @@ public class NewTaskActivity extends AppCompatActivity {
 
  */
 
+    public void resizeImage(Uri uri) {//重塑图片大小
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");//能够裁剪
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, RESIZE_REQUEST_CODE);
+    }
+
 
     private void initSubTask() {
             recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -537,6 +577,9 @@ public class NewTaskActivity extends AppCompatActivity {
                         //每次修改文字后，保存在数据集合中
                         Log.e("tag", "index=" + etFocusPos + ",save=" + s.toString());
                         etTextAry.put(etFocusPos, s.toString());
+                        subTask.setContent(etTextAry.get(etFocusPos));
+                        subTask.setDone(false);
+                        mSubTaskList.add(subTask);
                     }
                 };
 
